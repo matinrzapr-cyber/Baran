@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Alma ❤️</title>
+    <style>
+        body { margin: 0; padding: 0; background: #050505; font-family: 'Tahoma', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; color: #fff; text-align: center; }
+        
+        /* بارش */
+        .falling { position: fixed; top: -50px; z-index: 1; pointer-events: none; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        /* کارت */
+        .card { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(15px); padding: 30px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.1); width: 85%; max-width: 350px; z-index: 2; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .photo { width: 160px; height: 160px; border-radius: 50%; border: 4px solid #ff0055; object-fit: cover; margin-bottom: 20px; }
+        h1 { font-size: 2.2em; margin: 10px 0; color: #ff0055; }
+        
+        button { background: #ff0055; color: white; border: none; padding: 15px 30px; border-radius: 50px; font-size: 18px; cursor: pointer; transition: 0.3s; margin-top: 15px; font-weight: bold; }
+        button:hover { transform: scale(1.05); background: #d60045; }
+        
+        #hiddenMessage { display: none; margin-top: 25px; padding: 20px; border-top: 1px solid #444; text-align: center; line-height: 1.8; color: #fff; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+    <!-- موزیک -->
+    <audio id="music" loop>
+        <!-- لینک مستقیم آهنگ را اینجا بگذار (باید به .mp3 ختم شود) -->
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73220.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="card">
+        <img class="photo" src="https://uploadkon.ir/uploads/250119_26ChatGPT-Image-Jul-4-2026-11-03-54-PM.png" alt="Alma">
+        <h1>Alma</h1>
+        <p>You are my RockStar 🎸❤️</p>
+        
+        <button onclick="reveal()">کلیک کن عزیزم 💌</button>
+        
+        <div id="hiddenMessage">
+            سلام عزیزم، متن عاشقانه تو...
+        </div>
+    </div>
+
+    <script>
+        // بارش المان‌ها
+        function createFall() {
+            const symbols = ['❤️', '🎸', '⚡', '🎶'];
+            const el = document.createElement('div');
+            el.className = 'falling';
+            el.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            el.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 6000);
+        }
+        setInterval(createFall, 400);
+
+        // نمایش متن و پخش صدا
+        function reveal() {
+            document.getElementById('hiddenMessage').style.display = 'block';
+            document.getElementById('music').play();
+            // دکمه مخفی می‌شود تا ظاهر سایت تمیز بماند
+            document.querySelector('button').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
