@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>برای تو ❤️</title>
+  <title>قلب کهکشانی عاشقانه</title>
   <style>
     * {
       margin: 0;
@@ -12,128 +12,126 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    body, html {
-      width: 100%;
-      height: 100%;
+    body {
       overflow: hidden;
-      background-color: #05020a;
-      color: white;
+      background-color: #000;
+      color: #fff;
+      user-select: none;
     }
 
     #canvas-container {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       z-index: 1;
     }
 
-    /* لایه نوشته‌های روی هوا */
-    .floating-texts {
+    /* صفحه خوش‌آمدگویی اولیه */
+    #start-screen {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .floating-text {
-      position: absolute;
-      color: rgba(255, 182, 193, 0.85);
-      font-size: 1.2rem;
-      font-weight: bold;
-      text-shadow: 0 0 10px rgba(255, 105, 180, 0.8), 0 0 20px rgba(255, 20, 147, 0.5);
-      animation: float 6s ease-in-out infinite alternate;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0px) scale(1); opacity: 0.7; }
-      100% { transform: translateY(-20px) scale(1.05); opacity: 1; }
-    }
-
-    /* دکمه شروع / پخش */
-    #start-btn {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
       z-index: 10;
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      background: linear-gradient(45deg, #ff1493, #ff69b4);
-      color: white;
-      border: none;
-      border-radius: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
-      box-shadow: 0 0 25px rgba(255, 20, 147, 0.7);
-      transition: all 0.3s ease;
+      transition: opacity 1s ease;
     }
 
-    #start-btn:hover {
-      transform: translate(-50%, -50%) scale(1.1);
-      box-shadow: 0 0 35px rgba(255, 20, 147, 1);
+    #start-screen h1 {
+      font-size: 2.2rem;
+      color: #ff4d6d;
+      margin-bottom: 20px;
+      text-shadow: 0 0 15px rgba(255, 77, 109, 0.8);
+      text-align: center;
     }
 
-    /* دکمه پاکت نامه */
-    #envelope-btn {
+    .btn-start {
+      padding: 12px 30px;
+      font-size: 1.2rem;
+      background: linear-gradient(45deg, #ff4d6d, #ff758f);
+      border: none;
+      border-radius: 25px;
+      color: white;
+      box-shadow: 0 0 20px rgba(255, 77, 109, 0.6);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    /* دکمه باز کردن نامه */
+    #letter-btn {
       position: absolute;
       bottom: 30px;
-      right: 30px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 5;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: rgba(255, 105, 180, 0.2);
-      border: 2px solid rgba(255, 182, 193, 0.5);
-      font-size: 1.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       backdrop-filter: blur(5px);
-      box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
-      transition: all 0.3s ease;
-    }
-
-    #envelope-btn:hover {
-      transform: scale(1.1);
-      background: rgba(255, 105, 180, 0.4);
-    }
-
-    /* مدال نامه عاشقانه */
-    #letter-modal {
+      color: white;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
       display: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+    }
+
+    #letter-btn:hover {
+      background: rgba(255, 77, 109, 0.6);
+      transform: translateX(-50%) scale(1.05);
+    }
+
+    /* پاپ‌آپ نامه */
+    #modal {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(10px);
       z-index: 20;
-      backdrop-filter: blur(8px);
-      align-items: center;
+      display: flex;
       justify-content: center;
-      padding: 20px;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
     }
 
-    .letter-content {
-      background: rgba(20, 10, 30, 0.9);
-      border: 1px solid rgba(255, 105, 180, 0.4);
+    #modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, rgba(30, 10, 20, 0.9), rgba(10, 5, 15, 0.95));
+      border: 1px solid rgba(255, 105, 180, 0.3);
       border-radius: 20px;
-      max-width: 600px;
-      width: 100%;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
       max-height: 80vh;
       overflow-y: auto;
-      padding: 30px;
+      box-shadow: 0 0 30px rgba(255, 77, 109, 0.5);
       position: relative;
-      box-shadow: 0 0 30px rgba(255, 20, 147, 0.3);
       line-height: 1.8;
-      font-size: 1.05rem;
-      color: #ffe6f2;
-      text-align: right;
+      text-align: justify;
     }
 
     .close-btn {
@@ -142,171 +140,266 @@
       left: 20px;
       font-size: 1.5rem;
       cursor: pointer;
-      color: #ffb6c1;
+      color: #ff758f;
     }
 
-    .letter-title {
-      font-size: 1.5rem;
-      color: #ff69b4;
-      margin-bottom: 20px;
+    .modal-content h2 {
+      color: #ff4d6d;
+      margin-bottom: 15px;
       text-align: center;
     }
   </style>
 
-  <!-- کتابخانه Three.js برای ساخت کهکشان سه بعدی -->
+  <!-- کتابخانه‌های Three.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
 
-  <div id="canvas-container"></div>
-
-  <!-- دکمه لمس برای شروع (پخش موزیک و انیمیشن) -->
-  <button id="start-btn">❤️ لمس کن برای شروع ❤️</button>
-
-  <!-- ۱. نوشته‌های روی هوا (میتوانید متون و موقعیت آنها را تغییر دهید) -->
-  <div class="floating-texts">
-    <div class="floating-text" style="top: 15%; left: 10%; animation-delay: 0s;">روزمون مبارک 💗</div>
-    <div class="floating-text" style="top: 25%; right: 12%; animation-delay: 1s;">قشنگ‌ترین اتفاق زندگی من ✨</div>
-    <div class="floating-text" style="top: 70%; left: 15%; animation-delay: 2s;">همیشه کنارتم ❤️</div>
-    <div class="floating-text" style="top: 80%; right: 18%; animation-delay: 1.5s;">دوستت دارم 💕</div>
+  <div id="start-screen" onclick="startApp()">
+    <h1>روزت مبارک عشق من 💗</h1>
+    <button class="btn-start">❤️ برای شروع لمس کنید</button>
   </div>
 
-  <!-- دکمه نامه -->
-  <div id="envelope-btn">💌</div>
+  <div id="canvas-container"></div>
 
-  <!-- ۲. پنجره نامه عاشقانه -->
-  <div id="letter-modal">
-    <div class="letter-content">
-      <span class="close-btn" id="close-modal">&times;</span>
-      <div class="letter-title">برای بهترینم ❤️</div>
+  <button id="letter-btn" onclick="openModal()">💌 خواندن نامه عاشقانه</button>
+
+  <div id="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2>برای دوست‌داشتنی‌ترین فرد زندگی‌ام ❤️</h2>
       <p id="letter-text">
-        بعضی از آدما وارد زندگی ما میشن و خیلی راحت می‌گذرم، اما تو فرق داشتی...
-        آروم آروم شدی تمام دنیای من. مرسی که هستی و روزهامو قشنگ‌تر می‌کنی.
-        امیدوارم همیشه لبخند رو لبات باشه و کنار هم بهترین خاطره‌ها رو بسازیم.
+        بعضی از آدم‌ها وارد زندگی‌مان می‌شوند و بدون اثر می‌گذرند، اما تو به گونه‌ای متفاوت آمدی. کم‌کم به کسی تبدیل شدی که بدون او هیچ روزی کامل نیست. 
+        <br><br>
+        از زمانی که آمدی، فهمیدم محبت و عشق را می‌توان در کوچک‌ترین جزئیات، در یک گفتگو ساده، در یک خنده مشترک یا فقط در دانستن اینکه تو هستی حس کرد. 
+        <br><br>
+        از تو ممنونم برای هر خاطره‌ای که ساختیم و برای اینکه اجازه دادی بخشی از زندگی‌ات باشم. مرسی که هستی! 💕
       </p>
     </div>
   </div>
 
-  <!-- موزیک زمینه (میتوانید لینک فایل mp3 خود را جایگزین کنید) -->
   <audio id="bg-music" loop>
-    <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-sunset-2527.mp3" type="audio/mpeg">
+    <source src="music.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    // --- ۱. تنظیمات Three.js برای ساخت قلب کهکشانی ---
-    const container = document.getElementById('canvas-container');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
+    // ==========================================
+    // ✏️ بخش تنظیم متن‌های شناور در هوا (تنظیمات شما)
+    // ==========================================
+    const floatingTexts = [
+      "دوستت دارم ❤️",
+      "همه دنیای منی 💗",
+      "زیباترین اتفاق زندگی 💖",
+      "تا ابد با هم 💍",
+      "عشق ابدی من ✨",
+      "همیشه لبخند بزن 😊"
+    ];
 
-    // ساخت ذرات به شکل قلب
-    const particlesCount = 8000;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particlesCount * 3);
-    const colors = new Float32Array(particlesCount * 3);
+    // ==========================================
+    // کدهای موتور گرافیکی سه بعدی (Three.js)
+    // ==========================================
+    let scene, camera, renderer, controls;
+    let heartMesh, textGroup;
 
-    const color1 = new THREE.Color("#ff1493");
-    const color2 = new THREE.Color("#ff69b4");
-    const color3 = new THREE.Color("#9370db");
+    function initThree() {
+      const container = document.getElementById('canvas-container');
 
-    for (let i = 0; i < particlesCount; i++) {
-      // فرمول ریاضی معادله قلب
-      let t = Math.PI * (Math.random() * 2 - 1);
-      let u = Math.PI * (Math.random() * 2 - 1);
-      
-      let x = 16 * Math.pow(Math.sin(t), 3);
-      let y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
-      let z = (Math.random() - 0.5) * 10;
+      // ایجاد صحنه و دوربین
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 0, 12);
 
-      // اضافه کردن پراکندگی برای حالت کهکشانی
-      x += (Math.random() - 0.5) * 2;
-      y += (Math.random() - 0.5) * 2;
-      z += (Math.random() - 0.5) * 2;
+      // رندرکننده
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(renderer.domElement);
 
-      positions[i * 3] = x * 0.15;
-      positions[i * 3 + 1] = y * 0.15;
-      positions[i * 3 + 2] = z * 0.15;
+      // کنترل‌کننده چرخشی
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.rotateSpeed = 0.8;
 
-      // رنگ‌بندی ترکیبی ذرات
-      let mixedColor = color1.clone();
-      let rand = Math.random();
-      if (rand > 0.6) mixedColor.lerp(color2, Math.random());
-      else if (rand > 0.3) mixedColor.lerp(color3, Math.random());
+      // نورپردازی
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambientLight);
 
-      colors[i * 3] = mixedColor.r;
-      colors[i * 3 + 1] = mixedColor.g;
-      colors[i * 3 + 2] = mixedColor.b;
+      const pointLight = new THREE.PointLight(0xff4d6d, 2, 50);
+      pointLight.position.set(5, 5, 5);
+      scene.add(pointLight);
+
+      const pointLight2 = new THREE.PointLight(0xff758f, 1.5, 50);
+      pointLight2.position.set(-5, -5, -5);
+      scene.add(pointLight2);
+
+      // ساخت ذرات ستاره‌ای پس‌زمینه (کهکشان)
+      createStarfield();
+
+      // ساخت قلب سه بعدی
+      createHeart();
+
+      // ساخت متن‌های شناور حول قلب
+      createTexts();
+
+      // تغییر اندازه پنجره
+      window.addEventListener('resize', onWindowResize);
+
+      // حلقه انیمیشن
+      animate();
     }
 
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    // ساخت ذرات کهکشانی
+    function createStarfield() {
+      const geometry = new THREE.BufferGeometry();
+      const count = 2000;
+      const positions = new Float32Array(count * 3);
+      const colors = new Float32Array(count * 3);
 
-    const material = new THREE.PointsMaterial({
-      size: 0.04,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.8,
-      blending: THREE.AdditiveBlending
-    });
+      for (let i = 0; i < count * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 100;
+        positions[i + 1] = (Math.random() - 0.5) * 100;
+        positions[i + 2] = (Math.random() - 0.5) * 100;
 
-    const heartPoints = new THREE.Points(geometry, material);
-    scene.add(heartPoints);
+        colors[i] = 1;
+        colors[i + 1] = Math.random() * 0.5 + 0.3;
+        colors[i + 2] = Math.random() * 0.7 + 0.3;
+      }
 
-    camera.position.z = 5;
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-    // انیمیشن چرخش و افکت تپش قلب
-    let clock = new THREE.Clock();
+      const material = new THREE.PointsMaterial({
+        size: 0.12,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.8
+      });
+
+      const starfield = new THREE.Points(geometry, material);
+      scene.add(starfield);
+    }
+
+    // فرمول ریاضی ساخت شکل قلب سه بعدی
+    function createHeart() {
+      const x = 0, y = 0;
+      const heartShape = new THREE.Shape();
+
+      heartShape.moveTo(x + 0.5, y + 0.5);
+      heartShape.bezierCurveTo(x + 0.5, y + 0.5, x + 0.4, y, x, y);
+      heartShape.bezierCurveTo(x - 0.6, y, x - 0.6, y + 0.7, x - 0.6, y + 0.7);
+      heartShape.bezierCurveTo(x - 0.6, y + 1.1, x - 0.3, y + 1.54, x + 0.5, y + 1.9);
+      heartShape.bezierCurveTo(x + 1.3, y + 1.54, x + 1.6, y + 1.1, x + 1.6, y + 0.7);
+      heartShape.bezierCurveTo(x + 1.6, y, x + 1, y, x + 1, y);
+      heartShape.bezierCurveTo(x + 0.7, y, x + 0.5, y + 0.5, x + 0.5, y + 0.5);
+
+      const extrudeSettings = {
+        depth: 0.4,
+        bevelEnabled: true,
+        bevelSegments: 5,
+        steps: 2,
+        bevelSize: 0.2,
+        bevelThickness: 0.3
+      };
+
+      const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
+      geometry.center();
+
+      const material = new THREE.MeshStandardMaterial({
+        color: 0xff1744,
+        roughness: 0.2,
+        metalness: 0.7,
+        emissive: 0x550011
+      });
+
+      heartMesh = new THREE.Mesh(geometry, material);
+      heartMesh.rotation.x = Math.PI;
+      scene.add(heartMesh);
+    }
+
+    // ساخت متن‌های شناور به صورت Canvas Texture برای سبک‌تر بودن
+    function createTexts() {
+      textGroup = new THREE.Group();
+
+      floatingTexts.forEach((text, index) => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 512;
+        canvas.height = 128;
+
+        ctx.font = 'Bold 36px Tahoma, Arial';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = '#ff4d6d';
+        ctx.shadowBlur = 12;
+        ctx.fillText(text, 256, 70);
+
+        const texture = new THREE.CanvasTexture(canvas);
+        const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true });
+        const sprite = new THREE.Sprite(spriteMaterial);
+
+        // قرار دادن متن‌ها در مدار دور قلب
+        const angle = (index / floatingTexts.length) * Math.PI * 2;
+        const radius = 4.5 + (index % 2) * 0.8;
+        
+        sprite.position.x = Math.cos(angle) * radius;
+        sprite.position.y = (Math.random() - 0.5) * 3;
+        sprite.position.z = Math.sin(angle) * radius;
+        
+        sprite.scale.set(3.5, 0.9, 1);
+        textGroup.add(sprite);
+      });
+
+      scene.add(textGroup);
+    }
+
     function animate() {
       requestAnimationFrame(animate);
-      const elapsedTime = clock.getElapsedTime();
 
-      heartPoints.rotation.y = elapsedTime * 0.3;
-      heartPoints.rotation.x = Math.sin(elapsedTime * 0.2) * 0.1;
+      // چرخش نرم قلب
+      if (heartMesh) {
+        heartMesh.rotation.y += 0.008;
+        heartMesh.position.y = Math.sin(Date.now() * 0.002) * 0.2;
+      }
 
-      // افکت تپش
-      const scale = 1 + Math.sin(elapsedTime * 3) * 0.05;
-      heartPoints.scale.set(scale, scale, scale);
+      // چرخش متن‌های شناور در دور قلب
+      if (textGroup) {
+        textGroup.rotation.y -= 0.004;
+      }
 
+      controls.update();
       renderer.render(scene, camera);
     }
-    animate();
 
-    // ریسپانسو کردن برای گوشی و کامپیوتر
-    window.addEventListener('resize', () => {
+    function onWindowResize() {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+    }
 
-    // --- ۲. کنترل دکمه‌ها و موزیک ---
-    const startBtn = document.getElementById('start-btn');
-    const bgMusic = document.getElementById('bg-music');
-    const envelopeBtn = document.getElementById('envelope-btn');
-    const letterModal = document.getElementById('letter-modal');
-    const closeModal = document.getElementById('close-modal');
+    // مدیریت شروع برنامه‌ها و کنترل‌ها
+    function startApp() {
+      const startScreen = document.getElementById('start-screen');
+      startScreen.style.opacity = '0';
+      setTimeout(() => startScreen.style.display = 'none', 1000);
 
-    startBtn.addEventListener('click', () => {
-      bgMusic.play().catch(e => console.log("Audio play allowed after click"));
-      startBtn.style.display = 'none';
-    });
+      document.getElementById('letter-btn').style.display = 'block';
 
-    envelopeBtn.addEventListener('click', () => {
-      letterModal.style.display = 'flex';
-    });
+      // پخش موزیک پس‌زمینه
+      const audio = document.getElementById('bg-music');
+      audio.play().catch(e => console.log("خطا در پخش موزیک:", e));
 
-    closeModal.addEventListener('click', () => {
-      letterModal.style.display = 'none';
-    });
+      initThree();
+    }
 
-    window.addEventListener('click', (e) => {
-      if (e.target === letterModal) {
-        letterModal.style.display = 'none';
-      }
-    });
+    function openModal() {
+      document.getElementById('modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+    }
   </script>
 </body>
 </html>
